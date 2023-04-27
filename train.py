@@ -218,8 +218,12 @@ if __name__ == '__main__':
             weights_path = checkpoint_path.format(net=args.net, epoch=epoch, type='regular')
             print('saving weights file to {}'.format(weights_path))
             torch.save(net.state_dict(), weights_path)
-            
-        fx_weights_path = checkpoint_path.format(net=args.net, epoch=epoch, type='fx')
-        torch.save(net, fx_weights_path)
+        
+        if best_acc < acc:
+            best_acc = acc
+            graph = torch.fx.Tracer().trace(net)
+            traced = torch.fx.GraphModule(net, graph)
+            fx_weights_path = checkpoint_path.format(net=args.net, epoch=epoch, type='fx')
+            torch.save(traced, fx_weights_path)
 
     writer.close()
