@@ -23,9 +23,8 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
 from conf import settings
-from utils import get_network, get_training_dataloader, get_test_dataloader, WarmUpLR, \
+from utils import get_network_np, get_training_dataloader, get_test_dataloader, WarmUpLR, \
     most_recent_folder, most_recent_weights, last_epoch, best_acc_weights
-
 def train(epoch):
 
     start = time.time()
@@ -127,7 +126,10 @@ if __name__ == '__main__':
     parser.add_argument('-resume', action='store_true', default=False, help='resume training')
     args = parser.parse_args()
 
-    net = get_network(args)
+    net = get_network_np(args)
+    
+    if os.path.isfile(args.net):
+        args.net = os.path.splitext(os.path.basename(args.net))[0]
 
     #data preprocessing:
     cifar100_training_loader = get_training_dataloader(

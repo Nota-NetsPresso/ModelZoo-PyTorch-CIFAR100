@@ -17,18 +17,18 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 
 from conf import settings
-from utils import get_network, get_test_dataloader
+from utils import get_network_np, get_test_dataloader
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-net', type=str, required=True, help='net type')
-    parser.add_argument('-weights', type=str, required=True, help='the weights file you want to test')
+    parser.add_argument('-weights', type=str, help='the weights file you want to test')
     parser.add_argument('-gpu', action='store_true', default=False, help='use gpu or not')
     parser.add_argument('-b', type=int, default=256, help='batch size for dataloader')
     args = parser.parse_args()
 
-    net = get_network(args)
+    net = get_network_np(args)
 
     cifar100_test_loader = get_test_dataloader(
         settings.CIFAR100_TRAIN_MEAN,
@@ -37,8 +37,8 @@ if __name__ == '__main__':
         num_workers=4,
         batch_size=args.b,
     )
-
-    net.load_state_dict(torch.load(args.weights))
+    if args.weights is not None:
+       net.load_state_dict(torch.load(args.weights))
     print(net)
     net.eval()
 

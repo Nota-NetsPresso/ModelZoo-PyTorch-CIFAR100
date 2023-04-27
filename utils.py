@@ -162,6 +162,23 @@ def get_network(args):
 
     return net
 
+def get_network_np(args):
+    if args.net == 'mobilenetv2':
+        net = torch.hub.load("chenyaofo/pytorch-cifar-models", "cifar100_mobilenetv2_x1_0", pretrained=False)
+    elif args.net == 'repvgg':
+        net = torch.hub.load("chenyaofo/pytorch-cifar-models", "cifar100_repvgg_a1", pretrained=False)
+    elif args.net == 'vgg16':
+        net = torch.hub.load("chenyaofo/pytorch-cifar-models", "cifar100_vgg16_bn", pretrained=False)
+    else:
+        # check model exists
+        assert os.path.exists(args.net), f"{args.net} is not either model name(mobilenetv2, repvgg, vgg16) or model path."
+        net = torch.load(args.net)
+
+    if args.gpu:
+        net = net.cuda()
+
+    return net
+
 
 def get_training_dataloader(mean, std, batch_size=16, num_workers=2, shuffle=True):
     """ return training dataloader
