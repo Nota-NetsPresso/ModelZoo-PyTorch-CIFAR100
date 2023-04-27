@@ -180,7 +180,7 @@ if __name__ == '__main__':
     #create checkpoint folder to save model
     if not os.path.exists(checkpoint_path):
         os.makedirs(checkpoint_path)
-    checkpoint_path = os.path.join(checkpoint_path, '{net}-{epoch}-{type}.pth')
+    checkpoint_path = os.path.join(checkpoint_path, '{net}-{epoch}-{type}.pt')
 
     best_acc = 0.0
     if args.resume:
@@ -214,17 +214,12 @@ if __name__ == '__main__':
         train(epoch)
         acc = eval_training(epoch)
 
-        #start to save best performance model after learning rate decay to 0.01
-        if epoch > settings.MILESTONES[1] and best_acc < acc:
-            weights_path = checkpoint_path.format(net=args.net, epoch=epoch, type='best')
-            print('saving weights file to {}'.format(weights_path))
-            torch.save(net.state_dict(), weights_path)
-            best_acc = acc
-            continue
-
         if not epoch % settings.SAVE_EPOCH:
             weights_path = checkpoint_path.format(net=args.net, epoch=epoch, type='regular')
             print('saving weights file to {}'.format(weights_path))
             torch.save(net.state_dict(), weights_path)
+            
+        fx_weights_path = checkpoint_path.format(net=args.net, epoch=epoch, type='fx')
+        torch.save(net, fx_weights_path)
 
     writer.close()
