@@ -1,45 +1,53 @@
-# Pytorch-cifar100_nota
+<div align="center">
+  <p>
+    <a align="center" href="README.md" target="_blank">
+      <img width="100%" src="./imgs/cifar_banner.png"></a>
+  </p>
 
-practice on cifar100 using pytorch
+</div>
 
-## Requirements
+# <div align="center">NetsPresso Tutorial for PyTorch_CIFAR_Models Compressrion</div>
+## Order of the tutorial
+[1. Install](#1-install) </br>
+[2. Prepare the dataset](#2-prepare-the-dataset) </br>
+[3. (Optioanl) Run tensorboard](#3-optional-run-tensorbard) </br>
+[4. Training](#4-training) </br>
+[5. Testing](#5-testing) </br>
+[6. Model Compression with NetsPresso Python Package](#6-model-compression-with-netspresso-python-package)</br>
+[7. Fine-tuning the compressed Model](#7-fine-tuning-the-compressed-model)</br>
 
-This is my experiment eviroument
-- python3.6
-- pytorch1.6.0+cu101
-- tensorboard 2.2.2(optional)
-
-
-## Usage
-
-### 1. enter directory
+## 1. Install
+Clone repo, including [**PyTorch==1.11**](https://pytorch.org/get-started/locally/).
 ```bash
-$ cd pytorch-cifar100_nota
+git clone https://github.com/Nota-NetsPresso/pytorch-cifar-models_nota.git  # clone
+cd pytorch-cifar-models_nota
 ```
+</br>
 
-### 2. dataset
-I will use cifar100 dataset from torchvision since it's more convenient, but I also
+## 2. Prepare the dataset
+We will use cifar100 dataset from torchvision since it's more convenient, but We also
 kept the sample code for writing your own dataset module in dataset folder, as an
 example for people don't know how to write it.
+</br>
 
-### 3. run tensorbard(optional)
+## 3. (Optional) Run tensorbard
 Install tensorboard
 ```bash
-$ pip install tensorboard
-$ mkdir runs
+pip install tensorboard
+mkdir runs
 Run tensorboard
-$ tensorboard --logdir='runs' --port=6006 --host='localhost'
+tensorboard --logdir='runs' --port=6006 --host='localhost'
 ```
+</br>
 
-### 4. train the model
+## 4. Training
 You need to specify the net you want to train using arg -net
 
 ```bash
 # use gpu to train vgg16
-$ python train.py -net vgg16 -gpu
+python train.py -net vgg16 -gpu
 ```
-
-sometimes, you might want to use warmup training by set ```-warm``` to 1 or 2, to prevent network
+Sometimes, you might want to use warmup training by set ```-warm``` to 1 or 2, to prevent network
 diverge during early training phase.
 
 The supported net args are:
@@ -52,19 +60,142 @@ or
 saved model path
 ```
 The pretrained models are from [here](https://github.com/chenyaofo/pytorch-cifar-models).
+</br>
 
-
-### 5. test the model
+## 5. Testing
 Test the model using test.py
 ```bash
-$ python test.py -net path_to_fx_model_file
+python test.py -net path_to_fx_model_file
+```
+</br>
+
+## 6. Model Compression with NetsPresso Python Package<br/>
+Upload & compress your 'model-epoch-fx.pt' by using NetsPresso Python Package
+### 6_1. Install NetsPresso Python Package
+```bash
+pip install netspresso
+```
+### 6_2. Upload & Compress
+First, import the packages and set a NetsPresso username and password.
+```python
+from netspresso.compressor import ModelCompressor, Task, Framework, CompressionMethod, RecommendationMethod
+
+
+EMAIL = "YOUR_EMAIL"
+PASSWORD = "YOUR_PASSWORD"
+compressor = ModelCompressor(email=EMAIL, password=PASSWORD)
+```
+Second, upload 'model-epoch-fx.pt', which is the model converted to torchfx in step 4, with the following code.
+```python
+# Upload Model
+UPLOAD_MODEL_NAME = "PyTorch_CIFAR_model"
+TASK = Task.IMAGE_CLASSIFICATION
+FRAMEWORK = Framework.PYTORCH
+UPLOAD_MODEL_PATH = "./model-epoch-fx.pt"
+INPUT_LAYERS = [{"batch": 1, "channel": 3, "dimension": [32, 32]}]
+model = compressor.upload_model(
+    model_name=UPLOAD_MODEL_NAME,
+    task=TASK,
+    framework=FRAMEWORK,
+    file_path=UPLOAD_MODEL_PATH,
+    input_layers=INPUT_LAYERS,
+)
+```
+Finally, you can compress the uploaded model with the desired options through the following code.
+```python
+# Recommendation Compression
+COMPRESSED_MODEL_NAME = "test_l2norm"
+COMPRESSION_METHOD = CompressionMethod.PR_L2
+RECOMMENDATION_METHOD = RecommendationMethod.SLAMP
+RECOMMENDATION_RATIO = 0.6
+OUTPUT_PATH = "./compressed_model.pt"
+compressed_model = compressor.recommendation_compression(
+    model_id=model.model_id,
+    model_name=COMPRESSED_MODEL_NAME,
+    compression_method=COMPRESSION_METHOD,
+    recommendation_method=RECOMMENDATION_METHOD,
+    recommendation_ratio=RECOMMENDATION_RATIO,
+    output_path=OUTPUT_PATH,
+)
 ```
 
-### 6. compress the model
-Visit [netspresso.ai](https://netspresso.ai/) and compress the model. You can get step by step guide from [here](https://docs.netspresso.ai/docs/mc-step1-prepare-model).
+<details>
+<summary>Click to check 'Full Upload & Compress Code'</summary>
 
-### 7. fine-tune the model
+```bash
+pip install netspresso
+```
+
+```python
+from netspresso.compressor import ModelCompressor, Task, Framework, CompressionMethod, RecommendationMethod
+
+
+EMAIL = "YOUR_EMAIL"
+PASSWORD = "YOUR_PASSWORD"
+compressor = ModelCompressor(email=EMAIL, password=PASSWORD)
+
+# Upload Model
+UPLOAD_MODEL_NAME = "PyTorch_CIFAR_model"
+TASK = Task.IMAGE_CLASSIFICATION
+FRAMEWORK = Framework.PYTORCH
+UPLOAD_MODEL_PATH = "./model-epoch-fx.pt"
+INPUT_LAYERS = [{"batch": 1, "channel": 3, "dimension": [32, 32]}]
+model = compressor.upload_model(
+    model_name=UPLOAD_MODEL_NAME,
+    task=TASK,
+    framework=FRAMEWORK,
+    file_path=UPLOAD_MODEL_PATH,
+    input_layers=INPUT_LAYERS,
+)
+
+# Recommendation Compression
+COMPRESSED_MODEL_NAME = "test_l2norm"
+COMPRESSION_METHOD = CompressionMethod.PR_L2
+RECOMMENDATION_METHOD = RecommendationMethod.SLAMP
+RECOMMENDATION_RATIO = 0.6
+OUTPUT_PATH = "./compressed_model.pt"
+compressed_model = compressor.recommendation_compression(
+    model_id=model.model_id,
+    model_name=COMPRESSED_MODEL_NAME,
+    compression_method=COMPRESSION_METHOD,
+    recommendation_method=RECOMMENDATION_METHOD,
+    recommendation_ratio=RECOMMENDATION_RATIO,
+    output_path=OUTPUT_PATH,
+)
+```
+
+</details>
+
+More commands can be found in the official NetsPresso Python Package Docs: https://nota-github.github.io/netspresso-python/build/html/index.html <br/>
+
+Alternatively, you can do the same as above through the GUI on our website: https://console.netspresso.ai/models<br/><br/>
+
+## 7. Fine-tuning the compressed Model</br>
 You may need to set learning rate using ```-lr```
 ```bash
 $ python train.py -net path_to_compressed_model_file -lr 0.001
 ```
+Now you can use the compressed model however you like! </br></br>
+
+## <div align="center">Contact</div>
+
+Join our <a href="https://github.com/orgs/Nota-NetsPresso/discussions">Discussion Forum</a> for providing feedback or sharing your use cases, and if you want to talk more with Nota, please contact us <a href="https://www.nota.ai/contact-us">here</a>.</br>
+Or you can also do it via email(contact@nota.ai) or phone(+82 2-555-8659)!
+
+<br>
+<div align="center">
+  <a href="https://github.com/Nota-NetsPresso" style="text-decoration:none;">
+    <img src="imgs/github.png" width="3%" alt="" /></a>
+  <img src="imgs/logo-transparent.png" width="3%" alt="" />
+  <a href="https://www.facebook.com/NotaAI" style="text-decoration:none;">
+    <img src="imgs/facebook.png" width="3%" alt="" /></a>
+  <img src="imgs/logo-transparent.png" width="3%" alt="" />
+  <a href="https://twitter.com/nota_ai" style="text-decoration:none;">
+    <img src="imgs/twitter.png" width="3%" alt="" /></a>
+  <img src="imgs/logo-transparent.png" width="3%" alt="" />
+  <a href="https://www.youtube.com/channel/UCeewYFAqb2EqwEXZCfH9DVQ" style="text-decoration:none;">
+    <img src="imgs/youtube.png" width="3%" alt="" /></a>
+  <img src="imgs/logo-transparent.png" width="3%" alt="" />
+  <a href="https://www.linkedin.com/company/nota-incorporated" style="text-decoration:none;">
+    <img src="imgs/linkedin.png" width="3%" alt="" /></a>
+</div>
