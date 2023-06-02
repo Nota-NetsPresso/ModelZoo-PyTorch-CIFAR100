@@ -25,8 +25,8 @@ cd pytorch-cifar-models_nota
 </br>
 
 ## 2. Prepare the dataset
-We will use cifar100 dataset from torchvision since it's more convenient, but We also
-kept the sample code for writing your own dataset module in dataset folder, as an
+We will use cifar100 dataset from torchvision since it's more convenient, but we also
+kept the sample code for writing your dataset module in dataset folder, as an
 example for people don't know how to write it.
 </br>
 
