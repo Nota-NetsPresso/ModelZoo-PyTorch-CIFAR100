@@ -6,7 +6,7 @@
 
 </div>
 
-# <div align="center">NetsPresso tutorial for PyTorch_CIFAR_Models compressrion</div>
+# <div align="center">NetsPresso tutorial for PyTorch_CIFAR_Models compression</div>
 ## Order of the tutorial
 [0. Sign up](#0-sign-up) </br>
 [1. Install](#1-install) </br>
