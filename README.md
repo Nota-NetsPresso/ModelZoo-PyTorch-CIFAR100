@@ -1,20 +1,26 @@
 <div align="center">
   <p>
-    <a align="center" href="README.md" target="_blank">
-      <img width="100%" src="./imgs/cifar_banner.png"></a>
+    <a align="center" target="_blank">
+      <img width="100%" src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/banner/Pytorch-Cifar%20model_banner.png"></a>
   </p>
 
 </div>
 
-# <div align="center">NetsPresso Tutorial for PyTorch_CIFAR_Models Compressrion</div>
+# <div align="center">NetsPresso tutorial for PyTorch_CIFAR_Models compressrion</div>
 ## Order of the tutorial
+[0. Sign up](#0-sign-up) </br>
 [1. Install](#1-install) </br>
 [2. Prepare the dataset](#2-prepare-the-dataset) </br>
 [3. (Optioanl) Run tensorboard](#3-optional-run-tensorbard) </br>
 [4. Training](#4-training) </br>
 [5. Testing](#5-testing) </br>
-[6. Model Compression with NetsPresso Python Package](#6-model-compression-with-netspresso-python-package)</br>
-[7. Fine-tuning the compressed Model](#7-fine-tuning-the-compressed-model)</br>
+[6. Model compression with NetsPresso Python Package](#6-model-compression-with-netspresso-python-package)</br>
+[7. Fine-tuning the compressed model](#7-fine-tuning-the-compressed-model)</br>
+
+## 0. Sign up
+A NetsPresso account is required to use the NetsPresso Python Package. If you don't have a NetsPresso account, please sign up first.
+You can sign up here: https://netspresso.ai/signup
+</br>
 
 ## 1. Install
 Clone repo, including [**PyTorch==1.11**](https://pytorch.org/get-started/locally/).
@@ -69,7 +75,7 @@ python test.py -net path_to_fx_model_file
 ```
 </br>
 
-## 6. Model Compression with NetsPresso Python Package<br/>
+## 6. Model compression with NetsPresso Python Package<br/>
 Upload & compress your 'model-epoch-fx.pt' by using NetsPresso Python Package
 ### 6_1. Install NetsPresso Python Package
 ```bash
@@ -92,13 +98,13 @@ UPLOAD_MODEL_NAME = "PyTorch_CIFAR_model"
 TASK = Task.IMAGE_CLASSIFICATION
 FRAMEWORK = Framework.PYTORCH
 UPLOAD_MODEL_PATH = "./model-epoch-fx.pt"
-INPUT_LAYERS = [{"batch": 1, "channel": 3, "dimension": [32, 32]}]
+INPUT_SHAPES = [{"batch": 1, "channel": 3, "dimension": [32, 32]}]
 model = compressor.upload_model(
     model_name=UPLOAD_MODEL_NAME,
     task=TASK,
     framework=FRAMEWORK,
     file_path=UPLOAD_MODEL_PATH,
-    input_layers=INPUT_LAYERS,
+    input_shapes=INPUT_SHAPES,
 )
 ```
 Finally, you can compress the uploaded model with the desired options through the following code.
@@ -120,7 +126,7 @@ compressed_model = compressor.recommendation_compression(
 ```
 
 <details>
-<summary>Click to check 'Full Upload & Compress Code'</summary>
+<summary>Click to check 'Full upload & compress code'</summary>
 
 ```bash
 pip install netspresso
@@ -139,13 +145,13 @@ UPLOAD_MODEL_NAME = "PyTorch_CIFAR_model"
 TASK = Task.IMAGE_CLASSIFICATION
 FRAMEWORK = Framework.PYTORCH
 UPLOAD_MODEL_PATH = "./model-epoch-fx.pt"
-INPUT_LAYERS = [{"batch": 1, "channel": 3, "dimension": [32, 32]}]
+INPUT_SHAPES = [{"batch": 1, "channel": 3, "dimension": [32, 32]}]
 model = compressor.upload_model(
     model_name=UPLOAD_MODEL_NAME,
     task=TASK,
     framework=FRAMEWORK,
     file_path=UPLOAD_MODEL_PATH,
-    input_layers=INPUT_LAYERS,
+    input_shapes=INPUT_SHAPES,
 )
 
 # Recommendation Compression
@@ -166,11 +172,11 @@ compressed_model = compressor.recommendation_compression(
 
 </details>
 
-More commands can be found in the official NetsPresso Python Package Docs: https://nota-github.github.io/netspresso-python/build/html/index.html <br/>
+More commands can be found in the official NetsPresso Python Package docs: https://nota-netspresso.github.io/netspresso-python-docs/build/html/index.html <br/>
 
 Alternatively, you can do the same as above through the GUI on our website: https://console.netspresso.ai/models<br/><br/>
 
-## 7. Fine-tuning the compressed Model</br>
+## 7. Fine-tuning the compressed model</br>
 You may need to set learning rate using ```-lr```
 ```bash
 $ python train.py -net path_to_compressed_model_file -lr 0.001
@@ -185,17 +191,17 @@ Or you can also do it via email(contact@nota.ai) or phone(+82 2-555-8659)!
 <br>
 <div align="center">
   <a href="https://github.com/Nota-NetsPresso" style="text-decoration:none;">
-    <img src="imgs/github.png" width="3%" alt="" /></a>
-  <img src="imgs/logo-transparent.png" width="3%" alt="" />
+    <img src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/common/github.png" width="3%" alt="" /></a>
+  <img src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/common/logo-transparent.png" width="3%" alt="" />
   <a href="https://www.facebook.com/NotaAI" style="text-decoration:none;">
-    <img src="imgs/facebook.png" width="3%" alt="" /></a>
-  <img src="imgs/logo-transparent.png" width="3%" alt="" />
+    <img src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/common/facebook.png" width="3%" alt="" /></a>
+  <img src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/common/logo-transparent.png" width="3%" alt="" />
   <a href="https://twitter.com/nota_ai" style="text-decoration:none;">
-    <img src="imgs/twitter.png" width="3%" alt="" /></a>
-  <img src="imgs/logo-transparent.png" width="3%" alt="" />
+    <img src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/common/twitter.png" width="3%" alt="" /></a>
+  <img src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/common/logo-transparent.png" width="3%" alt="" />
   <a href="https://www.youtube.com/channel/UCeewYFAqb2EqwEXZCfH9DVQ" style="text-decoration:none;">
-    <img src="imgs/youtube.png" width="3%" alt="" /></a>
-  <img src="imgs/logo-transparent.png" width="3%" alt="" />
+    <img src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/common/youtube.png" width="3%" alt="" /></a>
+  <img src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/common/logo-transparent.png" width="3%" alt="" />
   <a href="https://www.linkedin.com/company/nota-incorporated" style="text-decoration:none;">
-    <img src="imgs/linkedin.png" width="3%" alt="" /></a>
+    <img src="https://github.com/Nota-NetsPresso/NetsPresso-Compatible-Models/blob/main/imgs/common/linkedin.png" width="3%" alt="" /></a>
 </div>
