@@ -18,8 +18,7 @@
 [7. Fine-tuning the compressed model](#7-fine-tuning-the-compressed-model)</br>
 
 ## 0. Sign up
-A NetsPresso account is required to use the NetsPresso Python Package. If you don't have a NetsPresso account, please sign up first.
-You can sign up <a href="https://netspresso.ai/signup?redirection_link=https://py.netspresso.ai&utm_source=git_cifar&utm_medium=page&utm_campaign=py_launch" target="_blank">here</a>.
+To get started with the NetsPresso Python package, you will need to sign up either at <a href="https://netspresso.ai/" target="_blank">NetsPresso</a> or <a href="https://py.netspresso.ai/?utm_source=git_cifar&utm_medium=page&utm_campaign=py_launch" target="_blank">PyNetsPresso</a>.
 </br>
 
 ## 1. Install
