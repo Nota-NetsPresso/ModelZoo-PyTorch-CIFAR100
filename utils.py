@@ -169,9 +169,11 @@ def get_network_np(args):
         net = torch.hub.load("chenyaofo/pytorch-cifar-models", "cifar100_repvgg_a1", pretrained=False)
     elif args.net == 'vgg16':
         net = torch.hub.load("chenyaofo/pytorch-cifar-models", "cifar100_vgg16_bn", pretrained=False)
+    elif args.net == 'resnet56':
+        net = torch.hub.load("chenyaofo/pytorch-cifar-models", "cifar100_resnet56", pretrained=False)
     else:
         # check model exists
-        assert os.path.exists(args.net), f"{args.net} is not either model name(mobilenetv2, repvgg, vgg16) or model path."
+        assert os.path.exists(args.net), f"{args.net} is not either model name(mobilenetv2, repvgg, vgg16, resnet56) or model path."
         net = torch.load(args.net)
 
     if args.gpu:
