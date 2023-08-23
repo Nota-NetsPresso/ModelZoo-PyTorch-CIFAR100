@@ -24,8 +24,8 @@ To get started with the NetsPresso Python package, you will need to sign up eith
 ## 1. Install
 Clone repo, including [**PyTorch >=1.11, < 2.0**](https://pytorch.org/get-started/locally/).
 ```bash
-git clone https://github.com/Nota-NetsPresso/pytorch-cifar-models_nota.git  # clone
-cd pytorch-cifar-models_nota
+git clone https://github.com/Nota-NetsPresso/ModelZoo-PyTorch-CIFAR100  # clone
+cd ModelZoo-PyTorch-CIFAR100
 ```
 </br>
 
@@ -60,6 +60,7 @@ The supported net args are:
 vgg16
 repvgg
 mobilenetv2
+resnet56
 
 or
 saved model path
