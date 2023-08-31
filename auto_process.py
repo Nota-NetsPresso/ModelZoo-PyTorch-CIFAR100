@@ -10,15 +10,13 @@ from loguru import logger
 from netspresso.compressor import ModelCompressor, Task, Framework
 
 from conf import settings
-from utils import get_network_np, get_training_dataloader, get_test_dataloader, WarmUpLR, \
-    most_recent_folder, most_recent_weights, last_epoch, best_acc_weights
-from train import train, eval_training
+from utils import get_network_np, get_training_dataloader, get_test_dataloader, WarmUpLR
 
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-net', type=str, required=True, help='net type')
+    parser.add_argument('-net', type=str, required=True, help='net type', choices=['mobilenetv2', 'repvgg', 'vgg16', 'resnet56'])
     parser.add_argument('-gpu', action='store_true', default=False, help='use gpu or not')
 
     """
@@ -255,7 +253,7 @@ if __name__ == '__main__':
 
         # save model
         if not epoch % settings.SAVE_EPOCH:
-            weights_path = os.path.join(checkpoint_path, 'best_ckpt.pt')
+            weights_path = os.path.join(checkpoint_path, f'{args.net}_{epoch}.pt')
             logger.info('saving weights file to {}'.format(weights_path))
             torch.save(net, weights_path)
         
