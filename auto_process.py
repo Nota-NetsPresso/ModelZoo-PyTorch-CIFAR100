@@ -265,3 +265,16 @@ if __name__ == '__main__':
 
     writer.close()
     logger.info("Fine-tuning step end.")
+
+    """
+        Export model to onnx
+    """
+    logger.info("Export model to onnx format step start.")
+
+    net = torch.load(os.path.join(checkpoint_path, 'best_ckpt.pt'), map_location='cpu')
+    dummy_input = torch.randn(1, 3, 32, 32)
+    torch.onnx.export(net, dummy_input, COMPRESSED_MODEL_NAME + '.onnx', 
+                      verbose=True, input_names=['input'], output_names=['output'], opset_version=12)
+    logger.info(f'=> saving model to {COMPRESSED_MODEL_NAME}.onnx')
+
+    logger.info("Export model to onnx format step end.")
