@@ -61,6 +61,7 @@ vgg16
 repvgg
 mobilenetv2
 resnet56
+inceptionv3
 
 or
 saved model path

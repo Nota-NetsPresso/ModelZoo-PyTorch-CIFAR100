@@ -16,7 +16,7 @@ from utils import get_network_np, get_training_dataloader, get_test_dataloader, 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-net', type=str, required=True, help='net type', choices=['mobilenetv2', 'repvgg', 'vgg16', 'resnet56'])
+    parser.add_argument('-net', type=str, required=True, help='net type', choices=['mobilenetv2', 'repvgg', 'vgg16', 'resnet56', 'inceptionv3'])
     parser.add_argument('-gpu', action='store_true', default=False, help='use gpu or not')
 
     """
