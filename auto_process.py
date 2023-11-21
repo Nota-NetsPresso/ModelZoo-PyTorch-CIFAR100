@@ -36,7 +36,7 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         "--compression_ratio",
-        type=int,
+        type=float,
         default=0.3
     )
     parser.add_argument(
